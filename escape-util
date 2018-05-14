@@ -1,0 +1,37 @@
+# Source this file to call functions
+#
+# Bash function: quote_semicolons
+# $1 - string to escape
+# output - $return_value - string with escapes
+
+function quote_semicolons {
+
+  #                            non quoted string   single quoted    double quoted       just  everything 
+  #                            without any ';'     string may       string may          ';'   left over
+  #                                   |            include ';'      include ';'          |    (the tail)
+  #                                   |                   |                 |            |        |
+  #                           -----------------   ---------------   ------------------   -  -------
+  UNQUOTED_SEMICOLO_REGEXP="^(((\\\\.|[^'\";])+)|('(\\\\.|[^'])*')|(\"(\\\\.|[^\"])*\")|(;))(.*)$"
+  # Note: The "\\\\." bit matches an escape and escaped character, i.e \" or \' or \\
+
+  input_tail="$1"
+  output=""
+  
+  while true; 
+  do
+    if [[ $input_tail =~ $UNQUOTED_SEMICOLO_REGEXP ]]; then
+  
+      input_tail=${BASH_REMATCH[9]} 
+      if [ "${BASH_REMATCH[1]}" == ";" ]; then
+        output="${output}\;"
+      else
+        output="${output}${BASH_REMATCH[1]}"
+      fi
+    else
+      break
+    fi
+  done
+
+  return_value="$output"
+}
+
