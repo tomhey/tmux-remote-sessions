@@ -1,10 +1,18 @@
 #!/bin/bash -e
 
+# Script that takes the output from "tmux list-keys" the key binding text and apply these settings
+# to tmux, effectively allowing an earlier dump of tmux key binding to be restored.
+
 SCRIPT_DIR=$(cd $(dirname $0) && pwd)
 source $SCRIPT_DIR/escape-util
 
-INPUT_FILE="input.txt"
-TMP_FILE="tmp.cmd"
+if [ $# -ne 1 ]; then
+  echo "Usage $0: <binding-input-file>"
+  exit 1
+fi
+
+INPUT_FILE="$1"
+TMP_FILE="$(mktemp)"
 
 # bind-key    -T prefix       PPage             copy-mode -u
 # bind-key -r -T prefix       Up                select-pane -U
@@ -49,3 +57,4 @@ done < "$INPUT_FILE"
 
 tmux source-file $TMP_FILE
 
+rm -f $TMP_FILE
