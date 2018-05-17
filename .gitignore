@@ -1,2 +1,5 @@
 input.txt
 junk
+original_bindings.txt
+trigger_file.sh
+clean-binding-settings.txt
