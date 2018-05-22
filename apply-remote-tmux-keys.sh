@@ -13,48 +13,44 @@ if [ $# -ne 0 ]; then
   exit 1
 fi
 
-FORWARD_MODE_WHITELIST="copy-mode
-                        copy-mode-vi"
+declare -a FORWARD_MODE_WHITELIST=("prefix")
 
-FORWARD_MODE_WHITELIST="prefix"
+declare -a FORWARD_COMMAND_WHITELIST=("break-pane"
+			              "choose-buffer"
+			              "choose-tree -Zw"
+			              "clock-mode"
+			              "copy-mode"
+			              "delete-buffer"
+			              "display-message"
+			              "display-panes"
+			              "find-window"
+			              "kill-pane"
+			              "kill-window"
+			              "last-pane"
+			              "last-window"
+			              "list-buffers"
+			              "move-window"
+			              "new-window"
+			              "next-layout"
+			              "paste-buffer"
+			              "rename-window"
+			              "resize-pane"
+			              "rotate-window"
+			              "select-layout"
+			              "select-pane"
+			              "select-window"
+			              "show-messages"
+			              "split-window"
+			              "swap-pane"
+                                      "previous-window"
+                                      "next-window")
 
-FORWARD_COMMAND_WHITELIST="break-pane                                       
-			   choose-buffer
-			   choose-tree
-			   clock-mode
-			   copy-mode
-			   delete-buffer                
-			   display-message
-			   display-panes
-			   find-window
-			   kill-pane
-			   kill-window                                                  
-			   last-pane
-			   last-window
-			   list-buffers                               
-			   move-window                                                                   
-			   new-window
-			   next-layout                               
-			   paste-buffer
-			   rename-window                                                         
-			   resize-pane
-			   rotate-window                                                               
-			   select-layout
-			   select-pane
-			   select-window                                                       
-			   show-messages
-			   split-window                             
-			   swap-pane
-                           previous-window
-                           next-window"
 
-tmux list-keys > original_bindings.txt
-
-INPUT_FILE="original_bindings.txt"
+INPUT_FILE="$SCRIPT_DIR/original_bindings.txt"
 TMP_FILE="$(mktemp)"
-TMP_FILE="bind-test.txt"
 TRIGGER_COMMAND_FILE="$SCRIPT_DIR/trigger_file.sh"
 
+tmux list-keys > $INPUT_FILE
 
 rm -f $TMP_FILE
 rm -f $TRIGGER_COMMAND_FILE
@@ -100,8 +96,8 @@ do
         send_key="$bind_key"
     fi
 
-    for key_table in $FORWARD_MODE_WHITELIST; do
-      for tmux_command in $FORWARD_COMMAND_WHITELIST; do
+    for key_table in ${FORWARD_MODE_WHITELIST[@]}; do
+      for tmux_command in "${FORWARD_COMMAND_WHITELIST[@]}"; do
 
         if [[ "$bind_key_table" == "$key_table" && 
 	      "$bind_command" = *"$tmux_command"* ]]; then
@@ -139,7 +135,6 @@ do
   fi
 done < "$INPUT_FILE"
 
-cat $TMP_FILE
 chmod +x $TRIGGER_COMMAND_FILE
 
 echo "  *)" >> $TRIGGER_COMMAND_FILE
