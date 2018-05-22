@@ -70,10 +70,14 @@ Example implementation, using if-shell to conditionally examine the session name
 
 Old form (earlier tmux - requires external shell)
 
+```bash
   tmux bind-key -T prefix 9 if-shell "test #{=-6:session_name} = remote" "display matched" "display different"
+```
 
 New form (version 2.7? - no external process)
 
+```bash
   tmux bind-key -T prefix 9 if-shell -F "#{m:*remote,#{session_name}}" "display matched" "display different"
+```
 
 
