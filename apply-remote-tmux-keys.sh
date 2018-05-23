@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
 
 # ...
 # Applies remote tmux key bindings
@@ -39,7 +40,6 @@ declare -a FORWARD_COMMAND_WHITELIST=("break-pane"
 			              "select-layout"
 			              "select-pane"
 			              "select-window"
-			              "show-messages"
 			              "split-window"
 			              "swap-pane"
                                       "previous-window"
@@ -55,9 +55,11 @@ tmux list-keys > $INPUT_FILE
 rm -f $TMP_FILE
 rm -f $TRIGGER_COMMAND_FILE
 
-touch $TRIGGER_COMMAND_FILE
-echo "case \"\$1\" in" >> $TRIGGER_COMMAND_FILE
-echo "" >> $TRIGGER_COMMAND_FILE
+echo "#!/usr/bin/env bash"  > $TRIGGER_COMMAND_FILE
+echo "set -e"              >> $TRIGGER_COMMAND_FILE
+echo ""                    >> $TRIGGER_COMMAND_FILE
+echo "case \"\$1\" in"     >> $TRIGGER_COMMAND_FILE
+echo ""                    >> $TRIGGER_COMMAND_FILE
 
 bind_command_regexp="^bind-key +((-r) +)?-T ([^ ]+) +([^ ]+) +(.+)$"
 

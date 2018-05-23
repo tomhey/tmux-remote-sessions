@@ -1,4 +1,5 @@
 # tmux-remote-sessions
+
 A (hopefully) less painful approach for working with remote tmux sessions from a local tmux instance.
 
 ## Plugin Use Case
@@ -14,7 +15,22 @@ This plugin's approach is to rebind commands that should be routed to the remote
 
 ## Installation
 
-ToDo
+### Installation with Tmux Plugin Manager (recommended)
+
+Add plugin to the list of TPM plugins in .tmux.conf:
+
+set -g @plugin 'tomhey/tmux-remote-sessions'
+Hit prefix + I to fetch the plugin and source it. That's it!
+
+### Manual Installation
+
+Clone the repo:
+
+$ git clone https://github.com/tomhey/tmux-remote-sessions ~/clone/path
+Add this line to the bottom of .tmux.conf:
+
+run-shell ~/clone/path/tmux-remote-sessions.tmux
+Reload TMUX environment with $ tmux source-file ~/.tmux.conf, and that's it.
 
 ## Usage
 
@@ -49,11 +65,18 @@ Once renamed the following prefix based commands will be forward to the remote t
 - select-layout
 - select-pane
 - select-window
-- show-messages
 - split-window
 - swap-pane
 - previous-window
 - next-window
+
+## ToDo (Things I'd like to do next)
+
+* Tmux version testing, to fallback to the shell test command when the matching operator is not supported by "if-shell -F"
+* Installation configuration/ flexiblity
+* Key binding to enable/ disable remote sessions, automating renaming with/ without the "- remote" postfix
+* Whitelist and blacklist support to override which binding/ commands are forwarded into a remote tmux session
+* Support for forwarding non-prefix commands
 
 ## Limitiations
 
@@ -64,7 +87,7 @@ Once renamed the following prefix based commands will be forward to the remote t
 
 This plugin is a work in progress, and over time I hope to address some of these limitations.
 
-## Implementation Details (ToDo)
+## Implementation Details
 
 Example implementation, using if-shell to conditionally examine the session name.
 

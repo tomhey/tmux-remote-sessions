@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
+set -e
 
 # Script that takes the output from "tmux list-keys" the key binding text and apply these settings
 # to tmux, effectively allowing an earlier dump of tmux key binding to be restored.
