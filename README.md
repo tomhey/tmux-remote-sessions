@@ -104,4 +104,11 @@ New form (version 2.7? - no external process)
   tmux bind-key -T prefix 9 if-shell -F "#{m:*remote,#{session_name}}" "display matched" "display different"
 ```
 
+## References
+
+Useful alternatives/ references for dealing with remote tmux sessions
+
+- https://simplyian.com/2014/03/29/using-tmux-remotely-within-a-local-tmux-session
+- http://stahlke.org/dan/tmux-nested
+- https://github.com/samoshkin/tmux-config
 
