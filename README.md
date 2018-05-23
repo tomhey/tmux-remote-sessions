@@ -20,6 +20,7 @@ This plugin's approach is to rebind commands that should be routed to the remote
 Add plugin to the list of TPM plugins in .tmux.conf:
 
 set -g @plugin 'tomhey/tmux-remote-sessions'
+
 Hit prefix + I to fetch the plugin and source it. That's it!
 
 ### Manual Installation
