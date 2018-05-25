@@ -17,31 +17,31 @@ fi
 declare -a FORWARD_MODE_WHITELIST=("prefix")
 
 declare -a FORWARD_COMMAND_WHITELIST=("break-pane"
-			              "choose-buffer"
-			              "choose-tree -Zw"
-			              "clock-mode"
-			              "copy-mode"
-			              "delete-buffer"
-			              "display-message"
-			              "display-panes"
-			              "find-window"
-			              "kill-pane"
-			              "kill-window"
-			              "last-pane"
-			              "last-window"
-			              "list-buffers"
-			              "move-window"
-			              "new-window"
-			              "next-layout"
-			              "paste-buffer"
-			              "rename-window"
-			              "resize-pane"
-			              "rotate-window"
-			              "select-layout"
-			              "select-pane"
-			              "select-window"
-			              "split-window"
-			              "swap-pane"
+                                      "choose-buffer"
+                                      "choose-tree -Zw"
+                                      "clock-mode"
+                                      "copy-mode"
+                                      "delete-buffer"
+                                      "display-message"
+                                      "display-panes"
+                                      "find-window"
+                                      "kill-pane"
+                                      "kill-window"
+                                      "last-pane"
+                                      "last-window"
+                                      "list-buffers"
+                                      "move-window"
+                                      "new-window"
+                                      "next-layout"
+                                      "paste-buffer"
+                                      "rename-window"
+                                      "resize-pane"
+                                      "rotate-window"
+                                      "select-layout"
+                                      "select-pane"
+                                      "select-window"
+                                      "split-window"
+                                      "swap-pane"
                                       "previous-window"
                                       "next-window")
 
@@ -76,38 +76,42 @@ do
     if [ $bind_key == ";" ]; then
         send_key="';'"
         bind_key="\;"
-	key_name="SemiColon"
+        key_name="SemiColon"
     elif [ $bind_key == "#" ]; then
         send_key="'#'"
         bind_key="'#'"
-	key_name="Hash"
+        key_name="Hash"
     elif [ $bind_key == "$" ]; then
         bind_key="'$'"
         send_key="'$'"
-	key_name="Dolar"
+        key_name="Dolar"
     elif [ $bind_key == "'" ]; then
         send_key="'"
         bind_key="\"'\""
-	key_name="SingleQuote"
+        key_name="SingleQuote"
     elif [ $bind_key == "\"" ]; then
         bind_key="'\"'"
         send_key="'\"'"
-	key_name="DoubleQuote"
+        key_name="DoubleQuote"
     elif [ $bind_key == "~" ]; then
         bind_key="'~'"
         send_key="'~'"
-	key_name="Tinda"
+        key_name="Tinda"
+    elif [ $bind_key == "&" ]; then
+        bind_key="&"
+        send_key="&"
+        key_name="Ampersand"
     else
         # unmodified bind_key
         send_key="$bind_key"
-	key_name="$bind_key"
+        key_name="$bind_key"
     fi
 
     for key_table in ${FORWARD_MODE_WHITELIST[@]}; do
       for tmux_command in "${FORWARD_COMMAND_WHITELIST[@]}"; do
 
         if [[ "$bind_key_table" == "$key_table" && 
-	      "$bind_command" = *"$tmux_command"* ]]; then
+              "$bind_command" = *"$tmux_command"* ]]; then
 
           remote_keys="\"send-keys C-b $send_key\""
           remote_test="if-shell -F \"#{m:*remote,#{session_name}}\""
