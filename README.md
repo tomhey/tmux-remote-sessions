@@ -111,4 +111,4 @@ Useful alternatives/ references for dealing with remote tmux sessions
 - https://simplyian.com/2014/03/29/using-tmux-remotely-within-a-local-tmux-session
 - http://stahlke.org/dan/tmux-nested
 - https://github.com/samoshkin/tmux-config
-
+- https://github.com/dojoteef/tmux-navigate

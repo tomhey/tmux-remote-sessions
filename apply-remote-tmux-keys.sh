@@ -72,30 +72,35 @@ do
     bind_key="${BASH_REMATCH[4]}"
     bind_command="${BASH_REMATCH[5]}"
 
-    raw_bind_key=$bind_key
-
     # A few key names need special quoting or escaping
     if [ $bind_key == ";" ]; then
         send_key="';'"
         bind_key="\;"
+	key_name="SemiColon"
     elif [ $bind_key == "#" ]; then
         send_key="'#'"
         bind_key="'#'"
+	key_name="Hash"
     elif [ $bind_key == "$" ]; then
         bind_key="'$'"
         send_key="'$'"
+	key_name="Dolar"
     elif [ $bind_key == "'" ]; then
-        send_key="\"'\""
+        send_key="'"
         bind_key="\"'\""
+	key_name="SingleQuote"
     elif [ $bind_key == "\"" ]; then
         bind_key="'\"'"
         send_key="'\"'"
+	key_name="DoubleQuote"
     elif [ $bind_key == "~" ]; then
         bind_key="'~'"
         send_key="'~'"
+	key_name="Tinda"
     else
         # unmodified bind_key
         send_key="$bind_key"
+	key_name="$bind_key"
     fi
 
     for key_table in ${FORWARD_MODE_WHITELIST[@]}; do
@@ -118,13 +123,13 @@ do
             echo "bind-key $bind_flags -T $bind_key_table $bind_key $bind_command" >> $TMP_FILE
           else
 
-            echo "  \"${bind_key_table}-${raw_bind_key}\")" >> $TRIGGER_COMMAND_FILE
+            echo "  \"${bind_key_table}-${key_name}\")" >> $TRIGGER_COMMAND_FILE
             echo "    tmux $bind_command" >> $TRIGGER_COMMAND_FILE
             echo "    ;;" >> $TRIGGER_COMMAND_FILE
             echo "" >> $TRIGGER_COMMAND_FILE
 
             echo "unbind-key -T $bind_key_table $bind_key" >> $TMP_FILE
-            echo "bind-key $bind_flags -T $bind_key_table $bind_key $remote_test $remote_keys \"run-shell $TRIGGER_COMMAND_FILE ${bind_key_table}-${bind_key}\"" >> $TMP_FILE
+            echo "bind-key $bind_flags -T $bind_key_table $bind_key $remote_test $remote_keys \"run-shell '$TRIGGER_COMMAND_FILE ${bind_key_table}-${key_name}'\"" >> $TMP_FILE
 
           fi
         fi
