@@ -91,7 +91,7 @@ do
         key_name="SingleQuote"
     elif [ $bind_key == "\"" ]; then
         bind_key="'\"'"
-        send_key="'\"'"
+        send_key="'\\\"'"
         key_name="DoubleQuote"
     elif [ $bind_key == "~" ]; then
         bind_key="'~'"
@@ -116,16 +116,7 @@ do
           remote_keys="\"send-keys C-b $send_key\""
           remote_test="if-shell -F \"#{m:*remote,#{session_name}}\""
 
-          if [[ ! $bind_command = *"\""* ]]; then
-
-            local_command="\"$bind_command\""
-            bind_command="$remote_test $remote_keys $local_command"
-            quote_semicolons "$bind_command"
-            bind_command="$return_value"
-
-            echo "unbind-key -T $bind_key_table $bind_key" >> $TMP_FILE
-            echo "bind-key $bind_flags -T $bind_key_table $bind_key $bind_command" >> $TMP_FILE
-          else
+          if [[ $bind_command = *"\""* || $bind_key = *"\""* ]]; then
 
             echo "  \"${bind_key_table}-${key_name}\")" >> $TRIGGER_COMMAND_FILE
             echo "    tmux $bind_command" >> $TRIGGER_COMMAND_FILE
@@ -135,6 +126,15 @@ do
             echo "unbind-key -T $bind_key_table $bind_key" >> $TMP_FILE
             echo "bind-key $bind_flags -T $bind_key_table $bind_key $remote_test $remote_keys \"run-shell '$TRIGGER_COMMAND_FILE ${bind_key_table}-${key_name}'\"" >> $TMP_FILE
 
+          else
+
+            local_command="\"$bind_command\""
+            bind_command="$remote_test $remote_keys $local_command"
+            quote_semicolons "$bind_command"
+            bind_command="$return_value"
+
+            echo "unbind-key -T $bind_key_table $bind_key" >> $TMP_FILE
+            echo "bind-key $bind_flags -T $bind_key_table $bind_key $bind_command" >> $TMP_FILE
           fi
         fi
       done
