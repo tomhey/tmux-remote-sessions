@@ -19,6 +19,10 @@ apply-remote-session-bindings() {
   ./apply-remote-tmux-keys.sh
   tmux set -g @tmux-remote-sessions-installed 'true'
   tmux display-message "applied remote session key bindings"
+
+  # Hardcoded remote-local toggle to 'r'
+  # ToDo: this should be configurable!
+  tmux bind-key -T prefix r run-shell $SCRIPT_DIR/toggle-remote-tmux.sh
 }
 
 # Apply remote binding after all the other plugins have finished
