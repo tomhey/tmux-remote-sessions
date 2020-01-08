@@ -33,6 +33,13 @@ Add this line to the bottom of .tmux.conf:
 run-shell ~/clone/path/tmux-remote-sessions.tmux
 Reload TMUX environment with $ tmux source-file ~/.tmux.conf, and that's it.
 
+### Configuration
+
+Add the following options to your ~/.tmux.conf as appropiate:
+
+- remote-session-toggle-key: Prefix key binding for toggling sessions between local (aka normal) and remote modes. No default, when this setting is omitted remote sessions can be set by changing the session name to end "-remote".
+- remote-session-mode: Either 'auto' or 'manual' (default 'auto'). In 'auto' mode session will be remote or local based on the session name, any name ending "-remote" is remote. In 'manual' mode command forwarding is controlled via Shift-Up and Shift-Down.
+ 
 ## Usage
 
 To start a session with a remote tmux server:
@@ -78,6 +85,7 @@ Once renamed the following prefix based commands will be forward to the remote t
 * Key binding to enable/ disable remote sessions, automating renaming with/ without the "- remote" postfix
 * Whitelist and blacklist support to override which binding/ commands are forwarded into a remote tmux session
 * Support for forwarding non-prefix commands
+* Better support for reloading configuration - at the moment bindings from other plugins will be clobbered on a configuration reload!
 
 ## Limitiations
 
