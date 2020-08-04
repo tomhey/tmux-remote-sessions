@@ -79,7 +79,7 @@ Once renamed the following prefix based commands will be forward to the remote t
 * Whitelist and blacklist support to override which binding/ commands are forwarded into a remote tmux session
 * Support for forwarding non-prefix commands
 
-## Limitiations
+## Limitations
 
 * This plugin does not communicate with session commands on the remote tmux server. If you need to interact with session commands on the remote server, for example, to select a remote session then you have to fallback to double pressing the prefix key.
 * Settings such as the prefix key and which commands to forward are hardcoded, where they should be plugin settings.
