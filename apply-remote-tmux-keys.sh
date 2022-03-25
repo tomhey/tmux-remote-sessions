@@ -113,7 +113,7 @@ do
         if [[ "$bind_key_table" == "$key_table" && 
               "$bind_command" = *"$tmux_command"* ]]; then
 
-          remote_keys="\"send-keys C-b $send_key\""
+          remote_keys="\"send-prefix ; send-keys $send_key\""
           remote_test="if-shell -F \"#{m:*remote,#{session_name}}\""
 
           if [[ $bind_command = *"\""* || $bind_key = *"\""* ]]; then
