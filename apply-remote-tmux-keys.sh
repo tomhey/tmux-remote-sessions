@@ -73,34 +73,42 @@ do
     bind_command="${BASH_REMATCH[5]}"
 
     # A few key names need special quoting or escaping
-    if [ $bind_key == ";" ]; then
+    if [[ $bind_key == ";" || $bind_key == '\;' ]]; then
         send_key="';'"
-        bind_key="\;"
+        bind_key='\;'
         key_name="SemiColon"
-    elif [ $bind_key == "#" ]; then
+    elif [[ $bind_key == "#" || $bind_key == '\#' ]]; then
         send_key="'#'"
         bind_key="'#'"
         key_name="Hash"
-    elif [ $bind_key == "$" ]; then
+    elif [[ $bind_key == "$" || $bind_key == '\$' ]]; then
         bind_key="'$'"
         send_key="'$'"
-        key_name="Dolar"
-    elif [ $bind_key == "'" ]; then
-        send_key="'"
+        key_name="Dollar"
+    elif [[ $bind_key == "'" || $bind_key == "\\'" ]]; then
+        send_key="\\'"
         bind_key="\"'\""
         key_name="SingleQuote"
-    elif [ $bind_key == "\"" ]; then
+    elif [[ $bind_key == "\"" ]]; then
         bind_key="'\"'"
         send_key="'\\\"'"
         key_name="DoubleQuote"
-    elif [ $bind_key == "~" ]; then
+    elif [[ $bind_key == "~" ]]; then
         bind_key="'~'"
         send_key="'~'"
-        key_name="Tinda"
-    elif [ $bind_key == "&" ]; then
+        key_name="Tilde"
+    elif [[ $bind_key == "&" ]]; then
         bind_key="&"
         send_key="&"
         key_name="Ampersand"
+    elif [[ $bind_key == '\\' ]]; then
+        # unmodified bind_key
+        send_key='\\\\'
+        key_name="Backslash"
+    elif [[ $bind_key == 'C-\\' ]]; then
+        # unmodified bind_key
+        send_key='C-\\\\'
+        key_name="C-Backslash"
     else
         # unmodified bind_key
         send_key="$bind_key"
@@ -113,7 +121,7 @@ do
         if [[ "$bind_key_table" == "$key_table" && 
               "$bind_command" = *"$tmux_command"* ]]; then
 
-          remote_keys="\"send-keys C-b $send_key\""
+          remote_keys="\"send-prefix ; send-keys $send_key\""
           remote_test="if-shell -F \"#{m:*remote,#{session_name}}\""
 
           if [[ $bind_command = *"\""* || $bind_key = *"\""* ]]; then
